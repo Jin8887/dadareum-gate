@@ -83,10 +83,28 @@
     .rv{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
     .rv.on{opacity:1;transform:none}
 
+    /* ── CONTENT SECTION ── */
+    .section-divider{position:relative;z-index:10;max-width:1100px;margin:0 auto;width:100%;padding:0 5% 2rem}
+    .section-label{display:inline-flex;align-items:center;gap:.6rem;font-family:var(--font);font-size:.72rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:.5rem}
+    .section-label::before{content:'';display:block;width:24px;height:1px;background:rgba(255,255,255,.2)}
+    .section-title{font-family:var(--font);font-size:1.4rem;font-weight:800;color:var(--white);margin-bottom:.4rem}
+    .section-sub{font-family:var(--font);font-size:.87rem;color:rgba(255,255,255,.4);line-height:1.7}
+    .section-line{width:100%;height:1px;background:linear-gradient(90deg,rgba(0,194,209,.2),transparent);margin-bottom:2rem}
+
+    .content-cards{position:relative;z-index:10;padding:0 5% 80px;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1.5rem;max-width:1100px;margin:0 auto;width:100%}
+
+    .card-icon.gold2{background:rgba(200,146,42,.15);border:1px solid rgba(200,146,42,.25)}
+    .card-icon.teal{background:rgba(0,180,160,.15);border:1px solid rgba(0,180,160,.25)}
+    .card-icon.indigo{background:rgba(99,102,241,.15);border:1px solid rgba(99,102,241,.25)}
+    .badge-content{background:rgba(200,146,42,.12);color:var(--gold-lt);border:1px solid rgba(200,146,42,.25)}
+    .badge-interactive{background:rgba(0,180,160,.12);color:#2dd4bf;border:1px solid rgba(0,180,160,.25)}
+    .badge-insight{background:rgba(99,102,241,.12);color:#a5b4fc;border:1px solid rgba(99,102,241,.25)}
+
     @media(max-width:700px){
       .hero{padding:60px 5% 48px}
       .programs{grid-template-columns:1fr;padding-bottom:60px}
       .prog-card{padding:2rem}
+      .content-cards{grid-template-columns:1fr;padding-bottom:60px}
     }
   </style>
 </head>
@@ -122,7 +140,7 @@
 <!-- PROGRAMS -->
 <div class="programs">
 
-  <!-- 카드 1: 기존 DC 과정 -->
+  <!-- 카드 1: DC 기반 역량교육 -->
   <a class="prog-card rv" href="https://program.dadareum.kr" target="_blank">
     <div class="card-top">
       <div class="card-icon blue">🎯</div>
@@ -130,22 +148,22 @@
     </div>
     <div class="card-body">
       <div class="card-category">리더십 역량교육</div>
-      <div class="card-title">팀장 리더십<br>역량교육 과정</div>
+      <div class="card-title">모의과제 기반<br>역량교육(Development Center)</div>
       <p class="card-desc">DC(Development Center) 기반의 모의과제 실습과 전문 퍼실리테이터의 역량 피드백으로 리더로서 '나'를 발견하고 행동변화를 이끌어냅니다.</p>
     </div>
     <div class="card-tags">
       <span class="card-tag">DC 방법론</span>
       <span class="card-tag">모의과제 실습</span>
-      <span class="card-tag">성과관리</span>
-      <span class="card-tag">동기부여</span>
+      <span class="card-tag">역량 피드백</span>
+      <span class="card-tag">행동변화</span>
     </div>
     <div class="card-footer">
       <span class="card-link">프로그램 보기 →</span>
-      <span class="card-meta">2일 · 13시간</span>
+      <span class="card-meta"></span>
     </div>
   </a>
 
-  <!-- 카드 2: 메타역량 과정 (신규) -->
+  <!-- 카드 2: 팀장 리더십 과정 -->
   <a class="prog-card rv" href="https://meta.dadareum.kr" target="_blank">
     <div class="card-top">
       <div class="card-icon cyan">🧠</div>
@@ -153,7 +171,7 @@
     </div>
     <div class="card-body">
       <div class="card-category">AI 시대 리더십</div>
-      <div class="card-title">AI 시대 팀장<br>리더십 과정</div>
+      <div class="card-title">팀장<br>리더십 과정</div>
       <p class="card-desc">판단력, 자기수용, 다양성 수용. AI가 대신할 수 없는 리더십의 근간인 메타역량을 경험 기반 설계로 체화합니다.</p>
     </div>
     <div class="card-tags">
@@ -164,29 +182,114 @@
     </div>
     <div class="card-footer">
       <span class="card-link">프로그램 보기 →</span>
-      <span class="card-meta">2~3일 과정</span>
+      <span class="card-meta"></span>
     </div>
   </a>
 
-  <!-- 카드 3: 준비중 슬롯 -->
-  <div class="prog-card coming rv">
+  <!-- 카드 3: 부장(시니어) 리더십 과정 -->
+  <a class="prog-card rv" href="https://senior.dadareum.kr" target="_blank">
     <div class="card-top">
-      <div class="card-icon gray">＋</div>
-      <span class="card-badge badge-soon">준비 중</span>
+      <div class="card-icon gold">🏆</div>
+      <span class="card-badge badge-new">NEW</span>
     </div>
     <div class="card-body">
-      <div class="card-category">Coming Soon</div>
-      <div class="card-title">다음 프로그램을<br>준비하고 있습니다</div>
-      <p class="card-desc">다다름의 새로운 교육 프로그램이 곧 공개됩니다. 관심 있으신 분은 문의 주세요.</p>
+      <div class="card-category">시니어 리더십</div>
+      <div class="card-title">부장(시니어)<br>리더십 과정</div>
+      <p class="card-desc">조직의 중심축인 시니어 리더를 위한 과정. 경험과 통찰을 조직 성과로 연결하는 시니어만의 리더십 언어를 설계합니다.</p>
     </div>
     <div class="card-tags">
-      <span class="card-tag">신규 과정 예정</span>
+      <span class="card-tag">시니어 리더십</span>
+      <span class="card-tag">조직 영향력</span>
+      <span class="card-tag">경험 자산화</span>
+      <span class="card-tag">세대 협업</span>
     </div>
     <div class="card-footer">
-      <span class="card-link-soon">업데이트 예정</span>
+      <span class="card-link">프로그램 보기 →</span>
       <span class="card-meta"></span>
     </div>
-  </div>
+  </a>
+
+</div>
+
+<!-- CONTENT SECTION DIVIDER -->
+<div class="section-divider rv">
+  <div class="section-label">다다름 콘텐츠 &amp; 경험</div>
+  <div class="section-title">일하는 당신을 위한 공간</div>
+  <p class="section-sub">교육 프로그램 밖에서도 다다름은 당신과 함께합니다.</p>
+  <div class="section-line"></div>
+</div>
+
+<!-- CONTENT CARDS -->
+<div class="content-cards">
+
+  <!-- 콘텐츠 카드 A: 유튜브 채널 -->
+  <a class="prog-card rv" href="https://youtube.com/@ddr_labs?si=NItTj-lFgyQmRAEl" target="_blank">
+    <div class="card-top">
+      <div class="card-icon gold2">🎵</div>
+      <span class="card-badge badge-content">직장인 공감 플레이리스트</span>
+    </div>
+    <div class="card-body">
+      <div class="card-category">직장인 공감 플레이리스트</div>
+      <div class="card-title">사직서 대신<br>플레이리스트</div>
+      <p class="card-desc">마음속 사직서를 잠시 접어두고, 직장인의 희로애락을 담은 노래로 하루를 위로받으세요.</p>
+    </div>
+    <div class="card-tags">
+      <span class="card-tag">#직장인공감</span>
+      <span class="card-tag">#퇴근길BGM</span>
+      <span class="card-tag">#플레이리스트</span>
+      <span class="card-tag">#AI작곡</span>
+    </div>
+    <div class="card-footer">
+      <span class="card-link">노래 듣기 →</span>
+      <span class="card-meta">YouTube</span>
+    </div>
+  </a>
+
+  <!-- 콘텐츠 카드 B: 마음의 소각장 -->
+  <a class="prog-card rv" href="https://sogakjang.vercel.app/" target="_blank">
+    <div class="card-top">
+      <div class="card-icon teal">🔥</div>
+      <span class="card-badge badge-interactive">인터랙티브 경험</span>
+    </div>
+    <div class="card-body">
+      <div class="card-category">인터랙티브 경험</div>
+      <div class="card-title">마음의 소각장<br><span style="font-size:.95rem;font-weight:600;color:rgba(255,255,255,.55)">— 최적주의자 되기 —</span></div>
+      <p class="card-desc">완벽주의에서 벗어나, 부정적인 감정을 태워버리는 마음 리셋 공간입니다. 지금 바로 경험해 보세요.</p>
+    </div>
+    <div class="card-tags">
+      <span class="card-tag">#마음챙김</span>
+      <span class="card-tag">#번아웃해소</span>
+      <span class="card-tag">#최적주의</span>
+      <span class="card-tag">#인터랙티브</span>
+    </div>
+    <div class="card-footer">
+      <span class="card-link">경험하러 가기 →</span>
+      <span class="card-meta">Interactive Web</span>
+    </div>
+  </a>
+
+  <!-- 콘텐츠 카드 C: 카드뉴스 -->
+  <a class="prog-card rv" href="cardnews.html" target="_blank">
+    <div class="card-top">
+      <div class="card-icon indigo">💡</div>
+      <span class="card-badge badge-insight">다다름 인사이트</span>
+    </div>
+    <div class="card-body">
+      <div class="card-category">다다름 인사이트</div>
+      <div class="card-title">다다름 인사이트 카드<br><span style="font-size:.95rem;font-weight:600;color:rgba(255,255,255,.55)">— 성장 키워드 시리즈 —</span></div>
+      <p class="card-desc">메타인지, 리더십, 자기수용… 다다름이 엄선한 성장 키워드를 카드뉴스로 만나보세요.</p>
+    </div>
+    <div class="card-tags">
+      <span class="card-tag">#메타인지</span>
+      <span class="card-tag">#리더십</span>
+      <span class="card-tag">#자기성장</span>
+      <span class="card-tag">#카드뉴스</span>
+    </div>
+    <div class="card-footer">
+      <span class="card-link">인사이트 보기 →</span>
+      <span class="card-meta">Card News</span>
+    </div>
+  </a>
 
 </div>
 
