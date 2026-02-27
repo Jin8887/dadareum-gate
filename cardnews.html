@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>다다름 인사이트 카드 | 성장 키워드 시리즈</title>
+  <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet" />
+  <style>
+    :root {
+      --navy:#0d1f3c;--blue:#1a5fd6;--cyan:#00c2d1;--gold:#c8922a;--gold-lt:#e8b455;
+      --white:#fff;--gray-bg:#f5f7fa;--gray:#6b7a99;--text:#1a1f2e;--border:#d9e1ef;
+      --indigo:#6366f1;--indigo-lt:#a5b4fc;
+      --font:'Pretendard',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo',sans-serif;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:var(--font);color:var(--text);background:var(--navy);min-height:100vh;display:flex;flex-direction:column;overflow-x:hidden}
+
+    /* ── 배경 ── */
+    .bg-layer{position:fixed;inset:0;z-index:0;pointer-events:none}
+    .bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(0,194,209,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,194,209,.04) 1px,transparent 1px);background-size:60px 60px}
+    .bg-glow1{position:absolute;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(99,102,241,.07),transparent 70%);top:-200px;right:-200px}
+    .bg-glow2{position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(26,95,214,.08),transparent 70%);bottom:-150px;left:-100px}
+
+    /* ── HEADER ── */
+    header{position:relative;z-index:10;padding:2rem 5%;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.07)}
+    .logo-area{display:flex;align-items:center;gap:1rem}
+    .back-btn{display:flex;align-items:center;gap:.4rem;font-family:var(--font);font-size:.82rem;color:rgba(255,255,255,.45);text-decoration:none;transition:color .2s;padding:.4rem .8rem;border:1px solid rgba(255,255,255,.1);border-radius:50px}
+    .back-btn:hover{color:var(--cyan);border-color:rgba(0,194,209,.35)}
+    .header-badge{font-family:var(--font);font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.28rem .8rem;border-radius:50px;background:rgba(99,102,241,.12);color:var(--indigo-lt);border:1px solid rgba(99,102,241,.25)}
+
+    /* ── HERO ── */
+    .hero{position:relative;z-index:10;text-align:center;padding:64px 5% 48px}
+    .hero-label{display:inline-block;font-family:var(--font);font-size:.72rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--indigo-lt);background:rgba(99,102,241,.1);border:1px solid rgba(99,102,241,.25);padding:.35rem 1rem;border-radius:50px;margin-bottom:1.6rem}
+    .hero-title{font-family:var(--font);font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:900;color:var(--white);line-height:1.25;letter-spacing:-.02em;margin-bottom:1rem}
+    .hero-title em{color:var(--indigo-lt);font-style:normal}
+    .hero-sub{font-family:var(--font);font-size:.95rem;color:rgba(255,255,255,.5);line-height:1.9;max-width:520px;margin:0 auto}
+
+    /* ── SERIES GRID ── */
+    .series-section{position:relative;z-index:10;padding:0 5% 80px;max-width:1100px;margin:0 auto;width:100%}
+    .series-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.5rem}
+
+    .series-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:20px;overflow:hidden;cursor:pointer;transition:all .35s;position:relative}
+    .series-card:hover{background:rgba(255,255,255,.08);border-color:rgba(99,102,241,.4);transform:translateY(-6px);box-shadow:0 24px 60px rgba(0,0,0,.3)}
+    .series-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--indigo),var(--indigo-lt));opacity:0;transition:opacity .3s}
+    .series-card:hover::before{opacity:1}
+
+    .series-thumb{width:100%;aspect-ratio:9/16;object-fit:cover;display:block;background:#1a2540}
+    .series-info{padding:1.4rem 1.6rem}
+    .series-num{font-family:var(--font);font-size:.7rem;font-weight:700;letter-spacing:.12em;color:var(--indigo-lt);text-transform:uppercase;margin-bottom:.4rem}
+    .series-name{font-family:var(--font);font-size:1.05rem;font-weight:800;color:var(--white);line-height:1.4;margin-bottom:.5rem}
+    .series-desc{font-family:var(--font);font-size:.82rem;color:rgba(255,255,255,.45);line-height:1.65}
+    .series-cta{display:flex;align-items:center;gap:.4rem;margin-top:1rem;font-family:var(--font);font-size:.82rem;font-weight:700;color:var(--indigo-lt)}
+    .series-card:hover .series-cta{gap:.7rem}
+
+    /* ── MODAL ── */
+    .modal-overlay{position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.85);display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;pointer-events:none;transition:opacity .3s}
+    .modal-overlay.open{opacity:1;pointer-events:all}
+    .modal-box{position:relative;background:#0d1f3c;border:1px solid rgba(255,255,255,.12);border-radius:24px;max-width:480px;width:100%;max-height:92vh;overflow:hidden;display:flex;flex-direction:column}
+    .modal-header{display:flex;align-items:center;justify-content:space-between;padding:1.2rem 1.6rem;border-bottom:1px solid rgba(255,255,255,.07)}
+    .modal-title{font-family:var(--font);font-size:.9rem;font-weight:700;color:var(--white)}
+    .modal-close{background:none;border:none;cursor:pointer;color:rgba(255,255,255,.5);font-size:1.4rem;line-height:1;padding:.2rem;transition:color .2s}
+    .modal-close:hover{color:var(--white)}
+    .modal-body{flex:1;overflow-y:auto;padding:1.2rem 1.6rem 1.6rem}
+    .slide-viewer{display:flex;flex-direction:column;gap:.8rem}
+    .slide-img{width:100%;border-radius:12px;display:block}
+    .modal-nav{display:flex;align-items:center;justify-content:center;gap:1rem;padding:1rem 1.6rem;border-top:1px solid rgba(255,255,255,.07)}
+    .nav-btn{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.7);font-family:var(--font);font-size:.82rem;font-weight:600;padding:.5rem 1.2rem;border-radius:50px;cursor:pointer;transition:all .2s}
+    .nav-btn:hover{background:rgba(99,102,241,.2);border-color:rgba(99,102,241,.4);color:var(--indigo-lt)}
+    .nav-btn:disabled{opacity:.3;cursor:default}
+    .nav-counter{font-family:var(--font);font-size:.82rem;color:rgba(255,255,255,.4);min-width:60px;text-align:center}
+
+    /* ── FOOTER ── */
+    footer{position:relative;z-index:10;margin-top:auto;padding:2rem 5%;border-top:1px solid rgba(255,255,255,.07);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+    .foot-left{display:flex;align-items:center;gap:1.2rem}
+    .foot-divider{width:1px;height:18px;background:rgba(255,255,255,.15)}
+    .foot-contact{font-family:var(--font);font-size:.8rem;color:rgba(255,255,255,.35)}
+    .foot-copy{font-family:var(--font);font-size:.75rem;color:rgba(255,255,255,.22)}
+
+    /* ── ANIMATIONS ── */
+    .rv{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
+    .rv.on{opacity:1;transform:none}
+
+    @media(max-width:700px){
+      .hero{padding:48px 5% 36px}
+      .series-grid{grid-template-columns:1fr 1fr;gap:1rem}
+      .modal-box{max-width:100%;border-radius:16px}
+    }
+    @media(max-width:480px){
+      .series-grid{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+
+<div class="bg-layer">
+  <div class="bg-grid"></div>
+  <div class="bg-glow1"></div>
+  <div class="bg-glow2"></div>
+</div>
+
+<!-- HEADER -->
+<header>
+  <div class="logo-area">
+    <a class="back-btn" href="index.html">← 홈으로</a>
+  </div>
+  <span class="header-badge">다다름 인사이트 카드</span>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-label rv">성장 키워드 시리즈</div>
+  <h1 class="hero-title rv">
+    리더로 성장하는<br>
+    <em>다다름 인사이트</em>
+  </h1>
+  <p class="hero-sub rv">
+    메타인지, 리더십, 자기수용…<br>
+    다다름이 엄선한 성장 키워드를 카드뉴스로 만나보세요.
+  </p>
+</div>
+
+<!-- SERIES GRID -->
+<div class="series-section">
+  <div class="series-grid" id="seriesGrid">
+
+    <!-- 시리즈 01: 메타인지 -->
+    <div class="series-card rv" onclick="openModal('metacognition')">
+      <img class="series-thumb" src="cardnews/metacognition_01.jpg" alt="메타인지 카드뉴스 썸네일" loading="lazy" />
+      <div class="series-info">
+        <div class="series-num">Series 01</div>
+        <div class="series-name">메타인지,<br>리더의 마음속 거울</div>
+        <div class="series-desc">뛰어난 리더는 자신을 객관적으로 봅니다. 메타인지의 핵심을 6장의 카드로 만나보세요.</div>
+        <div class="series-cta">카드 보기 →</div>
+      </div>
+    </div>
+
+    <!-- 시리즈 02: 다양성 추구 -->
+    <div class="series-card rv" onclick="openModal('diversity')">
+      <img class="series-thumb" src="cardnews/diversity/slide-1.jpg" alt="다름 수용, 다양성 추구 카드뉴스 썸네일" loading="lazy" />
+      <div class="series-info">
+        <div class="series-num">Series 02</div>
+        <div class="series-name">다름 수용,<br>다양성 추구</div>
+        <div class="series-desc">눈높이를 맞추면 보이지 않던 가능성이 열립니다. 다양성 수용의 핵심을 6장으로 만나보세요.</div>
+        <div class="series-cta">카드 보기 →</div>
+      </div>
+    </div>
+
+    <!-- 시리즈 03: 언런(Unlearn) -->
+    <div class="series-card rv" onclick="openModal('unlearn')">
+      <img class="series-thumb" src="cardnews/unlearn/slide-1.jpg" alt="언런 카드뉴스 썸네일" loading="lazy" />
+      <div class="series-info">
+        <div class="series-num">Series 03</div>
+        <div class="series-name">언런(Unlearn)<br>어제의 정답을 오늘 다시 점검</div>
+        <div class="series-desc">알고 있던 것을 비우는 용기. 리더의 업데이트를 4장으로 만나보세요.</div>
+        <div class="series-cta">카드 보기 →</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-title" id="modalTitle">메타인지, 리더의 마음속 거울</div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="slide-viewer" id="slideViewer"></div>
+    </div>
+    <div class="modal-nav">
+      <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">← 이전</button>
+      <span class="nav-counter" id="navCounter">1 / 6</span>
+      <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">다음 →</button>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-left">
+    <div class="foot-divider"></div>
+    <div class="foot-contact">jjj@dadareum.kr &nbsp;·&nbsp; 010-6391-8708</div>
+  </div>
+  <div class="foot-copy">© 2025 다다름. 학습자를 위한 바른 교육, 다른 교육.</div>
+</footer>
+
+<script>
+  /* ── 카드뉴스 데이터 ── */
+  const seriesData = {
+    metacognition: {
+      title: '메타인지, 리더의 마음속 거울',
+      slides: [
+        { src: 'cardnews/metacognition/metacognition_01.jpg', alt: '메타인지, 리더의 마음속 거울' },
+        { src: 'cardnews/metacognition/metacognition_02.jpg', alt: '거울 없이 중요한 결정을 내리고 있지 않나요?' },
+        { src: 'cardnews/metacognition/metacognition_03.jpg', alt: '메타인지란? 나를 바라보는 또 다른 나' },
+        { src: 'cardnews/metacognition/metacognition_04.jpg', alt: '리더의 메타인지, 두 가지 핵심 능력' },
+        { src: 'cardnews/metacognition/metacognition_05.jpg', alt: '리더의 가장 큰 적: 자기과신' },
+        { src: 'cardnews/metacognition/metacognition_06.jpg', alt: '왕 메타인지가 리더의 필수 역량인가?' },
+      ]
+    },
+    diversity: {
+      title: '다름 수용, 다양성 추구',
+      slides: [
+        { src: 'cardnews/diversity/slide-1.jpg', alt: '다름 수용, 다양성 추구' },
+        { src: 'cardnews/diversity/slide-2.jpg', alt: '다양성 추구 2장' },
+        { src: 'cardnews/diversity/slide-3.jpg', alt: '다양성 추구 3장' },
+        { src: 'cardnews/diversity/slide-4.jpg', alt: '다양성 추구 4장' },
+        { src: 'cardnews/diversity/slide-5.jpg', alt: '다양성 추구 5장' },
+        { src: 'cardnews/diversity/slide-6.jpg', alt: '다양성 추구 6장' },
+      ]
+    },
+    unlearn: {
+      title: '언런(Unlearn) — 어제의 정답을 오늘 다시 점검',
+      slides: [
+        { src: 'cardnews/unlearn/slide-1.jpg', alt: '언런, 어제의 정답을 오늘 다시 점검' },
+        { src: 'cardnews/unlearn/slide-2.jpg', alt: '언런 2장' },
+        { src: 'cardnews/unlearn/slide-3.jpg', alt: '언런 3장' },
+        { src: 'cardnews/unlearn/slide-4.jpg', alt: '언런 4장' },
+      ]
+    }
+  };
+
+  let currentSeries = null;
+  let currentSlide = 0;
+
+  function openModal(seriesKey) {
+    const data = seriesData[seriesKey];
+    if (!data) return;
+    currentSeries = seriesKey;
+    currentSlide = 0;
+    document.getElementById('modalTitle').textContent = data.title;
+    renderSlide();
+    document.getElementById('modalOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  }
+
+  function renderSlide() {
+    const data = seriesData[currentSeries];
+    const total = data.slides.length;
+    const slide = data.slides[currentSlide];
+    const viewer = document.getElementById('slideViewer');
+    viewer.innerHTML = `<img class="slide-img" src="${slide.src}" alt="${slide.alt}" />`;
+    document.getElementById('navCounter').textContent = `${currentSlide + 1} / ${total}`;
+    document.getElementById('prevBtn').disabled = currentSlide === 0;
+    document.getElementById('nextBtn').disabled = currentSlide === total - 1;
+    // 슬라이드 변경 시 스크롤 상단으로
+    document.querySelector('.modal-body').scrollTop = 0;
+  }
+
+  function changeSlide(dir) {
+    const data = seriesData[currentSeries];
+    const next = currentSlide + dir;
+    if (next < 0 || next >= data.slides.length) return;
+    currentSlide = next;
+    renderSlide();
+  }
+
+  // 키보드 네비게이션
+  document.addEventListener('keydown', (e) => {
+    if (!document.getElementById('modalOverlay').classList.contains('open')) return;
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') changeSlide(1);
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') changeSlide(-1);
+    if (e.key === 'Escape') closeModal();
+  });
+
+  /* ── 스크롤 애니메이션 ── */
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('on'), i * 100);
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.rv').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
